@@ -8,81 +8,68 @@ use Psr\Log\InvalidArgumentException;
 use Exception;
 
 /**
- * Bee\Log log channel
+ * 日志记录器
  *
- * It contains a stack of Handlers and a stack of Processors,
- * and uses them to store records that are added to it.
- *
- * @author Jordi Boggiano <j.boggiano@seld.be>
+ * @package Bee\Log
  */
 class Logger implements LoggerInterface, ResettableInterface
 {
     /**
-     * Detailed debug information
+     * 详细的调试信息
      */
     const DEBUG = 100;
 
     /**
-     * Interesting events
+     * 有趣的事件
      *
-     * Examples: User logs in, SQL logs.
+     * 例如: 用户登录，SQL日志。
      */
     const INFO = 200;
 
     /**
-     * Uncommon events
+     * 正常但重要的事件
      */
     const NOTICE = 250;
 
     /**
-     * Exceptional occurrences that are not errors
+     * 例外事件不是错误
      *
-     * Examples: Use of deprecated APIs, poor use of an API,
-     * undesirable things that are not necessarily wrong.
+     * 例如: 使用过时的API，API使用不当，不合理的东西不一定是错误。
      */
     const WARNING = 300;
 
     /**
-     * Runtime errors
+     * 运行时错误不需要马上处理
+     *
+     * 但通常应该被记录和监控。
      */
     const ERROR = 400;
 
     /**
-     * Critical conditions
+     * 临界条件
      *
-     * Example: Application component unavailable, unexpected exception.
+     * 例如: 应用组件不可用，意外的异常。
      */
     const CRITICAL = 500;
 
     /**
-     * Action must be taken immediately
+     * 必须立即采取行动
      *
-     * Example: Entire website down, database unavailable, etc.
-     * This should trigger the SMS alerts and wake you up.
+     * 例如: 整个网站宕机了，数据库挂了，等等。 这应该发送短信通知警告你.
      */
     const ALERT = 550;
 
     /**
-     * Urgent alert.
+     * 系统无法使用
      */
     const EMERGENCY = 600;
-
-    /**
-     * Bee\Log API version
-     *
-     * This is only bumped when API breaks are done and should
-     * follow the major version of the library
-     *
-     * @var int
-     */
-    const API = 1;
 
     /**
      * Logging levels from syslog protocol defined in RFC 5424
      *
      * @var array $levels Logging levels
      */
-    protected static $levels = array(
+    protected static $levels = [
         self::DEBUG     => 'DEBUG',
         self::INFO      => 'INFO',
         self::NOTICE    => 'NOTICE',
@@ -91,17 +78,14 @@ class Logger implements LoggerInterface, ResettableInterface
         self::CRITICAL  => 'CRITICAL',
         self::ALERT     => 'ALERT',
         self::EMERGENCY => 'EMERGENCY',
-    );
+    ];
 
     /**
+     * FIXME: 暂时写死东八区
+     *
      * @var \DateTimeZone
      */
-    protected static $timezone;
-
-    /**
-     * @var string
-     */
-    protected $name;
+    protected static $timezone = 'PRC';
 
     /**
      * The handler stack
@@ -130,36 +114,11 @@ class Logger implements LoggerInterface, ResettableInterface
     protected $exceptionHandler;
 
     /**
-     * @param string             $name       The logging channel
-     * @param HandlerInterface[] $handlers   Optional stack of handlers, the first one in the array is called first, etc.
-     * @param callable[]         $processors Optional array of processors
+     * @param callable[] $processors 日志内容中间处理器
      */
-    public function __construct($name, array $handlers = array(), array $processors = array())
+    public function __construct(array $processors = [])
     {
-        $this->name = $name;
-        $this->setHandlers($handlers);
         $this->processors = $processors;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Return a new cloned instance with the name changed
-     *
-     * @return static
-     */
-    public function withName($name)
-    {
-        $new = clone $this;
-        $new->name = $name;
-
-        return $new;
     }
 
     /**
@@ -224,8 +183,11 @@ class Logger implements LoggerInterface, ResettableInterface
     public function pushProcessor($callback)
     {
         if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('Processors must be valid callables (callback or object with an __invoke method), '.var_export($callback, true).' given');
+            throw new \InvalidArgumentException(
+                'Processors must be valid callables (callback or object with an __invoke method), ' . var_export($callback, true) . ' given'
+            );
         }
+
         array_unshift($this->processors, $callback);
 
         return $this;
@@ -254,17 +216,12 @@ class Logger implements LoggerInterface, ResettableInterface
     }
 
     /**
-     * Control the use of microsecond resolution timestamps in the 'datetime'
-     * member of new records.
+     * 新日志记录使用微妙进行时间记录
      *
-     * Generating microsecond resolution timestamps by calling
-     * microtime(true), formatting the result via sprintf() and then parsing
-     * the resulting string via \DateTime::createFromFormat() can incur
-     * a measurable runtime overhead vs simple usage of DateTime to capture
-     * a second resolution timestamp in systems which generate a large number
-     * of log events.
+     * 与通过 microtime(true) 获取，然后 sprintf() 进行微妙格式化相比，
+     * \DateTime::createFromFormat()可带来客观的运行时开销
      *
-     * @param bool $micro True to use microtime() to create timestamps
+     * @param bool $micro 为 true 时通过microtime(true)生成时间戳
      */
     public function useMicrosecondTimestamps($micro)
     {
@@ -272,14 +229,13 @@ class Logger implements LoggerInterface, ResettableInterface
     }
 
     /**
-     * Adds a log record.
-     *
-     * @param  int     $level   The logging level
-     * @param  string  $message The log message
-     * @param  array   $context The log context
-     * @return bool Whether the record has been processed
+     * @param int $level
+     * @param mixed $message
+     * @param array $context
+     * @return bool
+     * @throws Exception
      */
-    public function addRecord($level, $message, array $context = array())
+    public function addRecord($level, $message, array $context = [])
     {
         if (!$this->handlers) {
             $this->pushHandler(new StreamHandler('php://stderr', static::DEBUG));
@@ -287,11 +243,11 @@ class Logger implements LoggerInterface, ResettableInterface
 
         $levelName = static::getLevelName($level);
 
-        // check if any handler will handle this message so we can return early and save cycles
+        // 一旦日志登录匹配尽快的处理完成记录周期
         $handlerKey = null;
         reset($this->handlers);
         while ($handler = current($this->handlers)) {
-            if ($handler->isHandling(array('level' => $level))) {
+            if ($handler->isHandling(['level' => $level])) {
                 $handlerKey = key($this->handlers);
                 break;
             }
@@ -303,27 +259,18 @@ class Logger implements LoggerInterface, ResettableInterface
             return false;
         }
 
-        if (!static::$timezone) {
-            static::$timezone = new \DateTimeZone(date_default_timezone_get() ?: 'UTC');
-        }
-
         // php7.1+ always has microseconds enabled, so we do not need this hack
-        if ($this->microsecondTimestamps && PHP_VERSION_ID < 70100) {
-            $ts = \DateTime::createFromFormat('U.u', sprintf('%.6F', microtime(true)), static::$timezone);
-        } else {
-            $ts = new \DateTime(null, static::$timezone);
-        }
+        $ts = new \DateTime(null, static::$timezone);
         $ts->setTimezone(static::$timezone);
 
-        $record = array(
-            'message' => (string) $message,
-            'context' => $context,
-            'level' => $level,
+        $record = [
+            'message'    => (string)$message,
+            'context'    => $context,
+            'level'      => $level,
             'level_name' => $levelName,
-            'channel' => $this->name,
-            'datetime' => $ts,
-            'extra' => array(),
-        );
+            'datetime'   => $ts,
+            'extra'      => [],
+        ];
 
         try {
             foreach ($this->processors as $processor) {
