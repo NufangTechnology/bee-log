@@ -1,7 +1,6 @@
 <?php
 namespace Bee\Logger\Formatter;
 
-use Bee\Logger\Exception;
 use Phalcon\Logger\Formatter;
 use Bee\Logger\Processor\ProcessIdProcessor;
 

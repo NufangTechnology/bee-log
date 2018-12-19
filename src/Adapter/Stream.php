@@ -52,13 +52,18 @@ class Stream extends Adapter
     protected $_logExt = '.log';
 
     /**
+     * @var string
+     */
+    protected $_basePath;
+
+    /**
      * Stream constructor.
      *
      * @param string $name
      * @param null|array $options
      * @throws Exception
      */
-    public function __construct($name = '', $options = null)
+    public function __construct($basePath, $name = '', $options = null)
     {
         $mode = 'ab';
 
@@ -78,7 +83,15 @@ class Stream extends Adapter
             $this->_split = false;
         }
 
-        $this->_mode = $mode;
+        if (empty($basePath)) {
+            throw new Exception('Base path is required');
+        }
+        if (!is_dir($basePath)) {
+            throw new Exception("'{$basePath}' is not exists");
+        }
+
+        $this->_basePath = trim($basePath, '/');
+        $this->_mode     = $mode;
     }
 
     /**
@@ -130,7 +143,8 @@ class Stream extends Adapter
      */
     protected function createStream($name, $model)
     {
-        $stream = fopen($name, $model);
+        $file   = $this->_basePath . '/' . $name;
+        $stream = fopen($file, $model);
         if (!$stream) {
             throw new Exception("Can't open stream '" . $this->_name . "'");
         }
