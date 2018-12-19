@@ -1,6 +1,11 @@
 <?php
-namespace Bee\Log\Processor;
+namespace Bee\Logger\Processor;
 
+/**
+ * Some methods that are common for all memory processors
+ *
+ * @author Rob Jensen
+ */
 abstract class MemoryProcessor implements ProcessorInterface
 {
     /**
@@ -19,8 +24,8 @@ abstract class MemoryProcessor implements ProcessorInterface
      */
     public function __construct($realUsage = true, $useFormatting = true)
     {
-        $this->realUsage = (bool) $realUsage;
-        $this->useFormatting = (bool) $useFormatting;
+        $this->realUsage     = (bool)$realUsage;
+        $this->useFormatting = (bool)$useFormatting;
     }
 
     /**

@@ -1,6 +1,11 @@
 <?php
-namespace Bee\Log\Processor;
+namespace Bee\Logger\Processor;
 
+/**
+ * Adds value of getmypid into records
+ *
+ * @author Andreas Hörnicke
+ */
 class ProcessIdProcessor implements ProcessorInterface
 {
     /**

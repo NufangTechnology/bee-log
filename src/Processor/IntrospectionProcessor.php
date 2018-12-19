@@ -1,8 +1,19 @@
 <?php
-namespace Bee\Log\Processor;
+namespace Bee\Logger\Processor;
 
-use Bee\Log\Logger;
+use Monolog\Logger;
 
+/**
+ * Injects line/file:class/function where the log message came from
+ *
+ * Warning: This only works if the handler processes the logs directly.
+ * If you put the processor on a handler that is behind a FingersCrossedHandler
+ * for example, the processor will only be called once the trigger level is reached,
+ * and all the log records will have the same file/line/.. data from the call that
+ * triggered the FingersCrossedHandler.
+ *
+ * @author Jordi Boggiano <j.boggiano@seld.be>
+ */
 class IntrospectionProcessor implements ProcessorInterface
 {
     private $level;
@@ -19,7 +30,7 @@ class IntrospectionProcessor implements ProcessorInterface
     public function __construct($level = Logger::DEBUG, array $skipClassesPartials = array(), $skipStackFramesCount = 0)
     {
         $this->level = Logger::toMonologLevel($level);
-        $this->skipClassesPartials = array_merge(array('Bee\Log\\'), $skipClassesPartials);
+        $this->skipClassesPartials = array_merge(array('Monolog\\'), $skipClassesPartials);
         $this->skipStackFramesCount = $skipStackFramesCount;
     }
 

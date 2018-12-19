@@ -1,14 +1,27 @@
 {
-    "name": "bee-framework/log",
+    "name": "bee-framework/logger",
     "description": "Bee框架日志件",
     "type": "library",
     "require": {
         "bee-framework/util": "^1.0",
-        "psr/log": "^1.1"
+        "psr/log": "^1.1",
+        "monolog/monolog": "^1.24",
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.5",
-        "eaglewu/swoole-ide-helper": "dev-master"
+        "eaglewu/swoole-ide-helper": "dev-master",
+        "sneakybobito/phalcon-stubs": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bee\\Logger\\": "./src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Bee\\Logger\\Tests\\": "./tests"
+        }
     },
     "authors": [
         {
