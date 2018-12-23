@@ -52,7 +52,7 @@ class Stream extends AbstractLogger
     public function log($level, $message, array $context = array())
     {
         $today = date('Y-m-d');
-        $file = "/{$this->_basePath}/{$today}-{$this->_logExt}";
+        $file = "/{$this->_basePath}/{$today}{$this->_logExt}";
 
         file_put_contents($file, json_encode($context, JSON_UNESCAPED_UNICODE) . PHP_EOL, FILE_APPEND);
     }
