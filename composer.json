@@ -3,7 +3,7 @@
     "description": "Bee框架日志件",
     "type": "library",
     "require": {
-        "bee-framework/util": "^1.0",
+        "bee-framework/util": "^2.0",
         "psr/log": "^1.1",
         "ext-json": "*"
     },
