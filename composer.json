@@ -3,14 +3,11 @@
     "description": "Bee框架日志件",
     "type": "library",
     "require": {
-        "bee-framework/util": "^1.0",
-        "psr/log": "^1.1",
-        "ext-json": "*"
+        "ext-seaslog": "^1.9",
+        "bee-framework/util": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5",
-        "eaglewu/swoole-ide-helper": "dev-master",
-        "sneakybobito/phalcon-stubs": "^3.3"
+        "vicens/seaslog-helper": "^0.1.0"
     },
     "autoload": {
         "psr-4": {
@@ -24,7 +21,7 @@
     },
     "authors": [
         {
-            "name": "南山吴彦祖",
+            "name": "沸羊羊",
             "email": "anoxia@engineer.com"
         }
     ]
