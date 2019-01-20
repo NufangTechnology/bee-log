@@ -1,10 +1,29 @@
 <?php
 namespace Bee\Logger\Adapter;
 
+/**
+ * Class SeasLog
+ *
+ * @package Bee\Logger\Adapter
+ */
 class SeasLog
 {
+    /**
+     * SeasLog constructor.
+     *
+     * @param array $config
+     */
     public function __construct(array $config)
     {
+        if (isset($config['base_dir'])) {
+            \SeasLog::setBasePath($config['base_dir']);
+        }
+        if (isset($config['folder_name'])) {
+            \SeasLog::setLogger($config['folder_name']);
+        }
+        if (isset($config['template'])) {
+            ini_set('seaslog.default_template', $config['template']);
+        }
     }
 
     /**

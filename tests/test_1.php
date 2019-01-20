@@ -23,12 +23,18 @@ SeasLog提供了下列预设变量，可以直接使用在日志模板中，将�
 
 // 日志服务配置
 $config = [
-    'base_dir' => '',
-    'log_name' => 'log',
-    'datetime_format' => 'Y-m-d H:i:s',
-    'template' => '%T | %L | %P | %Q | %t | %M',
+    'base_dir'        => '',
+    'folder_name'     => 'log',
+    'template'        => '%H | %P | %T | %L | %U | %u | %t | %M',
 ];
 
+$startTime = microtime(true);
+
+
+$id = SeasLog::getRequestID();
+
+
+$id_ = SeasLog::getRequestID();
 
 $init = ini_get_all('seaslog');
 
@@ -37,3 +43,4 @@ ini_set('seaslog.remote_host', '172.0.0.1');
 $init_after = ini_get_all('seaslog');
 
 print_r($init_after);
+
