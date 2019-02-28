@@ -3,6 +3,7 @@
     "description": "Bee框架日志件",
     "type": "library",
     "require": {
+        "php": ">=7.1",
         "ext-seaslog": "^1.9",
         "bee-framework/util": "^1.0"
     },

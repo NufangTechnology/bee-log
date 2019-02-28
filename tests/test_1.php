@@ -38,7 +38,7 @@ $id_ = SeasLog::getRequestID();
 
 $init = ini_get_all('seaslog');
 
-ini_set('seaslog.remote_host', '172.0.0.1');
+ini_set('seaslog.default_template', $config['template']);
 
 $init_after = ini_get_all('seaslog');
 
