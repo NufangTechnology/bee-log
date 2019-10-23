@@ -4,11 +4,10 @@
     "type": "library",
     "require": {
         "php": ">=7.1",
-        "ext-seaslog": ">=1.9",
-        "bee-framework/util": "^2.1"
+        "bee-framework/util": "^2.1",
+        "psr/log": "^1.1"
     },
     "require-dev": {
-        "vicens/seaslog-helper": "^0.1.0"
     },
     "autoload": {
         "psr-4": {
@@ -25,5 +24,9 @@
             "name": "沸羊羊",
             "email": "anoxia@engineer.com"
         }
-    ]
+    ],
+    "suggest": {
+        "ext-swoole": "Coroutine file IO support",
+        "ext-seaslog": "The Seaslog is an effective,fast,stable log extension for PHP."
+    }
 }

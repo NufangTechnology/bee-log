@@ -1,24 +1,30 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a9af5d99e8f07bc63a7f8450965f98f",
+    "content-hash": "9ee75da68523abb32371c3b16878aa95",
     "packages": [
         {
             "name": "bee-framework/util",
-            "version": "v2.1.0",
+            "version": "v2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NufangTechnology/bee-util.git",
-                "reference": "eecc69eb0f4b87511544dd54b79fbb2fec38c1d9"
+                "reference": "79332bfca20f8ac1b1147490f1ce25b13d17dce8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NufangTechnology/bee-util/zipball/eecc69eb0f4b87511544dd54b79fbb2fec38c1d9",
-                "reference": "eecc69eb0f4b87511544dd54b79fbb2fec38c1d9",
-                "shasum": ""
+                "url": "https://api.github.com/repos/NufangTechnology/bee-util/zipball/79332bfca20f8ac1b1147490f1ce25b13d17dce8",
+                "reference": "79332bfca20f8ac1b1147490f1ce25b13d17dce8",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require-dev": {
                 "phpunit/phpunit": "^7.2"
@@ -31,54 +37,70 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Bee框架通用类库",
-            "time": "2019-03-04T03:40:15+00:00"
-        }
-    ],
-    "packages-dev": [
+            "time": "2019-03-05T09:30:57+00:00"
+        },
         {
-            "name": "vicens/seaslog-helper",
-            "version": "v0.1.0",
+            "name": "psr/log",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vicens/SeasLog-helper.git",
-                "reference": "d8ac9001ba3b86843694db3c9ad919489d321666"
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vicens/SeasLog-helper/zipball/d8ac9001ba3b86843694db3c9ad919489d321666",
-                "reference": "d8ac9001ba3b86843694db3c9ad919489d321666",
-                "shasum": ""
+                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
-                "ext-seaslog": "*",
-                "php": ">=5.3"
+                "php": ">=5.3.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "vicens",
-                    "email": "521287718@qq.com"
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
                 }
             ],
-            "description": "SeasLog ide helper.",
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
             "keywords": [
-                "seaslog"
+                "log",
+                "psr",
+                "psr-3"
             ],
-            "time": "2018-11-02T05:51:32+00:00"
+            "time": "2018-11-20T15:27:04+00:00"
         }
     ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1",
-        "ext-seaslog": ">=1.9"
+        "php": ">=7.1"
     },
     "platform-dev": []
 }
